@@ -1,0 +1,28 @@
+---
+title: "How to Upload a File via FTP in R"
+author: "D"
+date: "08 settembre 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+
+```
+
+Ever wondered how to upload a file to an FTP server in R?
+
+## Here's how!
+Let's suppose you have an acount named __*user_name*__, with password: __*user_password*__ by the ftp server with address: __*ftp.server.com*__.
+
+To upload the local file named: __*origin_filename.ext*__ to the ftp server, in the folder: __*dest_folder*__, having name: __*destination_filename.ext*__, you simply hit:
+
+```{r include = TRUE, eval = FALSE}
+library(RCurl)
+
+ftpUpload("origin_filename.ext", "ftp://user_name:password@ftp.server.com/dest_folder/destination_filename.ext")
+
+```
+
+## This even works with DataCamp's R console!
