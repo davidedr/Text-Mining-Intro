@@ -1,0 +1,37 @@
+---
+title: "Text Minig using qdap"
+author: "D"
+date: "08 settembre 2016"
+output: html_document
+---
+
+Start with a little clean up.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+
+```
+
+Load the relevant library:
+```{r}
+library(qdap)
+
+```
+
+These are the texts we want to analyze:
+```{r}
+text = "Text mining usually involves the process of structuring the input text. The overarching goal is, essentially, to turn text into data for analysis, via application of natural language processing (NLP) and analytical methods."
+
+new_text =  "DataCamp is the first online learning platform that focuses on building the best learning experience specifically for Data Science. We have offices in Boston and Belgium and to date, we trained over 250,000 (aspiring) data scientists in over 150 countries. These data science enthusiasts completed more than 9 million exercises. You can take free beginner courses, or subscribe for $25/month to get access to all premium courses."
+```
+
+Let's count the number of times each word appears and render the frequency as barplots:
+```{r}
+term_count <- freq_terms(text, 4)
+plot(term_count)
+
+term_count <- freq_terms(new_text)
+plot(term_count)
+
+```
+
