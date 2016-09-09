@@ -1,0 +1,63 @@
+---
+title: "Untitled"
+author: "D"
+date: "09 settembre 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+setwd("C:\\Nuova cartella\\Data Camp - Text Mining in R")
+
+```
+
+```{r}
+tweets <- read.csv("coffee.csv", stringsAsFactors = FALSE, header = TRUE)
+
+```
+
+Our corpus of data is composed of: `r dim(tweets)[1]` tweets records each composed of `r dim(tweets)[2]` observations:
+```{r}
+names(tweets)
+
+```
+
+(btw: here we used the fact that function *dim* returns a vector. You can say that by: "Our corpus of data is composed of: `r nrow(tweets)` tweets records each composed of `r ncol(tweets)` observations" as well, using the *ncol* and *nrow* functions.)
+
+More information si produced by the  *str* function:
+```{r}
+str(tweets)
+
+```
+
+Ok. Get the text from the data:
+```{r}
+coffee_tweets <- tweets$text
+str(coffee_tweets)
+class(coffee_tweets)
+coffee_tweets[2]
+
+```
+*coffee_tweets* is a vector, each element of which is a text (tweet). Each tweets' text can then be accessed by usual*[ ]* operator: *coffee_tweets[2]*, and so on,
+
+Now we want to convert it into a *corpus*, a data structure useful to mine its contents. A corpus is a collection of documents.
+```{r}
+library(tm)
+coffee_source <- VectorSource(coffee_tweets)
+str(coffee_source)
+
+```
+
+Since *coffee_tweets* is a vector, we use the *VectorSource* function that converts from a vector to a *Source* object. From this objects we get the corpus using the *Vcorpus* function.
+
+This intermediate step is useul since we can convert the Source object into two types of corpuses: *VCorpus* and/or *PCorpus*. Specifically, VCorpus is a *volatile* corpus, that is a corpus that is stored in memory (ram): this is called *VCorpus*. As opposed to *PCorpus*, i.e.: permanent corpus, that is stored onto permanent sorage (disk). Other *Source* functions are provided to convert into corpus object a wide range of origin data structures.
+
+Now let's get the corpus:
+```{r}
+coffee_corpus <- VCorpus(coffee_source)
+print(coffee_corpus)
+
+```
+
+*coffee_corpus* is a *nested list*, i.e. a list R type each element of wchich is a list R object by itself. The latter list elements contains 
