@@ -39,7 +39,7 @@ class(coffee_tweets)
 coffee_tweets[2]
 
 ```
-*coffee_tweets* is a vector, each element of which is a text (tweet). Each tweets' text can then be accessed by usual*[ ]* operator: *coffee_tweets[2]*, and so on,
+*coffee_tweets* is a vector, each element of which is a text (tweet). Each tweets' text can then be accessed by usual *[ ]* operator: *coffee_tweets[2]*, and so on,
 
 Now we want to convert it into a *corpus*, a data structure useful to mine its contents. A corpus is a collection of documents.
 ```{r}
@@ -58,6 +58,69 @@ Now let's get the corpus:
 coffee_corpus <- VCorpus(coffee_source)
 print(coffee_corpus)
 
+class(coffee_corpus)
+str(coffee_corpus[[1]])
+coffee_corpus[[2]]
+coffee_corpus[[1]][1]$Author
 ```
 
-*coffee_corpus* is a *nested list*, i.e. a list R type each element of wchich is a list R object by itself. The latter list elements contains 
+*coffee_corpus* is a *nested list*, i.e. a list R type each element of which is a list R object by itself. The latter list elements contains 
+
+You can get a corpus from a data frame as well. Let's get the *example_text* data frame:
+```{r}
+load("example_text.rda")
+str(example_text)
+print(example_text)
+
+```
+
+*DataframeSource* builds a *Source* object from a data frame. Only cols #2 and #3 of the dataframe are text, so we get source only from these cols:
+```{r}
+df_source <- DataframeSource(example_text[,2:3])
+
+```
+and then we get the corpus:
+```{r}
+df_corpus <- VCorpus(df_source)
+str(df_corpus)
+print(df_corpus)
+
+```
+
+We can consider only a single col:
+```{r}
+df_vector <- example_text[, 2]
+vec_source <- VectorSource(df_vector)
+vec_corpus <- VCorpus(vec_source)
+str(vec_corpus)
+print(vec_corpus)
+
+```
+
+# Text cleaning
+```{r}
+# Create the object: text
+text <- "<b>She</b> woke up at       6 A.M. It\'s so early!  She was only 10% awake and began drinking coffee in front of her computer."
+
+# All lowercase
+print(tolower(text))
+
+# Remove punctuation
+print(removePunctuation(text))
+
+# Remove numbers
+print(removeNumbers(text))
+
+# Remove whitespace
+print(stripWhitespace(text))
+```
+
+```{r}
+library(qdap)
+
+```
+
+```{r}
+
+```
+

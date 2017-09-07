@@ -26,3 +26,30 @@ ftpUpload("origin_filename.ext", "ftp://user_name:password@ftp.server.com/dest_f
 ```
 
 ## This even works with DataCamp's R console!
+
+Unfortunately, sometimes DataCamp's R console does not allow to run the command:
+```{r}
+library(RCurl)
+```
+
+In this case you can use this function:
+```{r}
+upload_ftp <- function(file, url, verbose = FALSE){
+
+  con <- file(file, open = "rb")
+  on.exit(close(con))
+  h <- curl::new_handle(upload = TRUE, filetime = FALSE)
+  curl::handle_setopt(h, readfunction = function(n){
+    readBin(con, raw(), n = n)
+  }, verbose = verbose)
+  curl::curl_fetch_memory(url, handle = h)
+}
+
+```
+
+providing the to be uploaded filename as the file parameter, and the classical string:
+"ftp://user_name:password@ftp.server.com/dest_folder/destination_filename.ext"
+
+for the url parameter
+
+Credits: This solution is based on Jim Hester's devtools implementation (https://github.com/jimhester)
